@@ -3,13 +3,13 @@ require 'pathname'
 require 'tmpdir'
 
 namespace :silk_icons do
-  DOCS_DIR = Pathname('doc/silk_icons').expand_path
-  IMAGES_DIR = Pathname('app/assets/images/silk_icons').expand_path
-  STYLESHEETS_DIR = Pathname('app/assets/stylesheets')
+  docs_dir = Pathname('doc/silk_icons').expand_path
+  images_dir = Pathname('app/assets/images/silk_icons').expand_path
+  stylesheets_dir = Pathname('app/assets/stylesheets')
 
-  directory "#{DOCS_DIR}"
-  directory "#{IMAGES_DIR}"
-  directory "#{STYLESHEETS_DIR}"
+  directory "#{docs_dir}"
+  directory "#{images_dir}"
+  directory "#{stylesheets_dir}"
 
   task :dev_only do
     unless Pathname('silk_icons.gemspec').exist?
@@ -18,7 +18,7 @@ namespace :silk_icons do
     end
   end
   desc 'Unpack the archive and place files in appropriate locations'
-  task unpack: [ :dev_only, "#{DOCS_DIR}", "#{IMAGES_DIR}" ] do
+  task unpack: [ :dev_only, "#{docs_dir}", "#{images_dir}" ] do
 
     basename = File.basename(SilkIcons::ARCHIVE_URL.path)
     Dir.mktmpdir do |dir|
@@ -27,18 +27,18 @@ namespace :silk_icons do
        sh 'unzip -q %s' % basename
        %w(readme.html readme.txt).each do |file|
          file = Pathname(file)
-         mv file, DOCS_DIR + file.basename
+         mv file, docs_dir + file.basename
        end
        Dir['icons/*'].each do |icon|
          icon = Pathname(icon)
-         mv icon, IMAGES_DIR + icon.basename
+         mv icon, images_dir + icon.basename
        end
       end
     end
   end
 
-  file "#{STYLESHEETS_DIR + 'silk_icons.css.scss'}" => [ :dev_only, "#{STYLESHEETS_DIR}" ] do |t|
-    icons = FileList["#{IMAGES_DIR}/*.png"].pathmap('%n')
+  file "#{stylesheets_dir + 'silk_icons.css.scss'}" => [ :dev_only, "#{stylesheets_dir}" ] do |t|
+    icons = FileList["#{images_dir}/*.png"].pathmap('%n')
     content = icons.map do |icon|
       ".silk_icon-#{icon} { background: image-url('silk_icons/#{icon}.png') no-repeat; }"
     end.join("\n")
