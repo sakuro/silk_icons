@@ -3,18 +3,18 @@ require 'pathname'
 require 'tmpdir'
 
 namespace :silk_icons do
+  DOCS_DIR = Pathname('doc/silk_icons').expand_path
+  IMAGES_DIR = Pathname('app/assets/images/silk_icons').expand_path
+
+  directory "#{DOCS_DIR}"
+  directory "#{IMAGES_DIR}"
+
   desc 'Unpack the archive and place files in appropriate locations'
-  task :unpack do
+  task :unpack => [ "#{DOCS_DIR}", "#{IMAGES_DIR}" ] do
     unless Pathname('silk_icons.gemspec').exist?
       puts 'This task is for the development of silk_icons gem itself.'
       next
     end
-
-    doc_dir = Pathname('doc/silk_icons').expand_path
-    doc_dir.mkpath
-
-    assets_dir = Pathname('app/assets/images/silk_icons').expand_path
-    assets_dir.mkpath
 
     basename = File.basename(SilkIcons::ARCHIVE_URL.path)
     Dir.mktmpdir do |dir|
