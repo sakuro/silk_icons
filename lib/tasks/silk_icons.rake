@@ -12,7 +12,7 @@ namespace :silk_icons do
   directory "#{STYLESHEETS_DIR}"
 
   desc 'Unpack the archive and place files in appropriate locations'
-  task :unpack => [ "#{DOCS_DIR}", "#{IMAGES_DIR}" ] do
+  task unpack: [ "#{DOCS_DIR}", "#{IMAGES_DIR}" ] do
     unless Pathname('silk_icons.gemspec').exist?
       puts 'This task is for the development of silk_icons gem itself.'
       next
