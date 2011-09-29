@@ -23,11 +23,11 @@ namespace :silk_icons do
        sh 'unzip -q %s' % basename
        %w(readme.html readme.txt).each do |file|
          file = Pathname(file)
-         file.rename(doc_dir + file.basename)
+         mv file, DOCS_DIR + file.basename
        end
        Dir['icons/*'].each do |icon|
          icon = Pathname(icon)
-         icon.rename(assets_dir + icon.basename)
+         mv icon, IMAGES_DIR + icon.basename
        end
       end
     end
