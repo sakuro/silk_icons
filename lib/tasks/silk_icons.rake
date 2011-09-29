@@ -11,12 +11,14 @@ namespace :silk_icons do
   directory "#{IMAGES_DIR}"
   directory "#{STYLESHEETS_DIR}"
 
-  desc 'Unpack the archive and place files in appropriate locations'
-  task unpack: [ "#{DOCS_DIR}", "#{IMAGES_DIR}" ] do
+  task :dev_only do
     unless Pathname('silk_icons.gemspec').exist?
       puts 'This task is for the development of silk_icons gem itself.'
-      next
+      exit
     end
+  end
+  desc 'Unpack the archive and place files in appropriate locations'
+  task unpack: [ :dev_only, "#{DOCS_DIR}", "#{IMAGES_DIR}" ] do
 
     basename = File.basename(SilkIcons::ARCHIVE_URL.path)
     Dir.mktmpdir do |dir|
@@ -35,7 +37,7 @@ namespace :silk_icons do
     end
   end
 
-  file "#{STYLESHEETS_DIR + 'silk_icons.css.scss'}" => "#{STYLESHEETS_DIR}" do |t|
+  file "#{STYLESHEETS_DIR + 'silk_icons.css.scss'}" => [ :dev_only, "#{STYLESHEETS_DIR}" ] do |t|
     icons = FileList["#{IMAGES_DIR}/*.png"].pathmap('%n')
     content = icons.map do |icon|
       ".silk_icon-#{icon} { background: image-url('silk_icons/#{icon}.png') no-repeat; }"
