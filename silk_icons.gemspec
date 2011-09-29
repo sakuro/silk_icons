@@ -16,5 +16,5 @@ Gem::Specification.new do |s|
   s.rubyforge_project = '(n/a)'
 
   s.files = `git ls-files`.split("\n")
-  s.add_dependency('rails', '~> 3.1.0.rc1')
+  s.add_dependency('rails', '~> 3.1.0')
 end
