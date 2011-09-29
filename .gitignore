@@ -5,3 +5,4 @@ pkg/*
 vendor/bundle
 bin
 .DS_Store
+.sass-cache
