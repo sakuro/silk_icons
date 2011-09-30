@@ -4,8 +4,8 @@ require 'tmpdir'
 
 namespace :silk_icons do
   docs_dir = Pathname('doc/silk_icons').expand_path
-  images_dir = Pathname('app/assets/images/silk_icons').expand_path
-  stylesheets_dir = Pathname('app/assets/stylesheets')
+  images_dir = Pathname('vendor/assets/images/silk_icons').expand_path
+  stylesheets_dir = Pathname('vendor/assets/stylesheets')
 
   directory "#{docs_dir}"
   directory "#{images_dir}"
