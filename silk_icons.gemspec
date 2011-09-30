@@ -18,4 +18,6 @@ Gem::Specification.new do |s|
   s.files = `git ls-files`.split("\n")
   s.required_ruby_version = '~> 1.9.2' # Note that dev tasks require ~> 1.9.3
   s.add_dependency('rails', '~> 3.1.0')
+
+  s.extra_rdoc_files = %w(doc/silk_icons/readme.txt doc/silk_icons/readme.html)
 end
