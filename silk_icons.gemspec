@@ -16,5 +16,6 @@ Gem::Specification.new do |s|
   s.rubyforge_project = '(n/a)'
 
   s.files = `git ls-files`.split("\n")
+  s.required_ruby_version = '~> 1.9.2' # Note that dev tasks require ~> 1.9.3
   s.add_dependency('rails', '~> 3.1.0')
 end
