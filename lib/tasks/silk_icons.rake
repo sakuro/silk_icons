@@ -74,20 +74,22 @@ namespace :silk_icons do
   end
 
   file "#{stylesheet}" => [ :unpack, "#{stylesheets_dir}" ] do |t|
-    content = ''
+    content = <<-PREAMBLE.gsub(/^    /, '')
+    @mixin silk-icon-sprite-at-index($n) {
+      background-image: image-url('silk_icons/sprite.png') !important;
+      background-repeat: no-repeat !important;
+      background-position: ($n % 40) * (-16px) floor($n / 40) * (-16px) !important;
+      width: 16px !important;
+      height: 16px !important;
+      overflow: hidden !important;
+    }
+    PREAMBLE
     Dir.chdir ENV['SILK_ICONS_TMP'] do
       pngs = FileList['icons/*.png'].pathmap('%n').sort
-      pngs.each_slice(40).with_index do |row, y|
-        row.each.with_index do |png, x|
-          content += <<-STYLE.lstrip
-          .silk_icon-#{png} {
-            background: image-url('silk_icons/sprite.png') no-repeat -#{x*16}px -#{y*16}px;
-            width: 16px;
-            height: 16px;
-            overflow: hidden;
-          }
-          STYLE
-        end
+      pngs.each_with_index do |png, i|
+        content += <<-STYLE.lstrip
+        .silk_icon-#{png} { @include silk-icon-sprite-at-index(#{i}); }
+        STYLE
       end
     end
 
