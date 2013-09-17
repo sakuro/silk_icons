@@ -1,13 +1,20 @@
 require 'silk_icons/info'
+require 'silk_icons/engine'
 require 'pathname'
 require 'tmpdir'
 
 namespace :silk_icons do
+
   docs_dir = Pathname('doc/silk_icons')
   images_dir = Pathname('vendor/assets/images/silk_icons')
   sprite_image = images_dir + 'sprite.png'
   stylesheets_dir = Pathname('vendor/assets/stylesheets')
   stylesheet = stylesheets_dir + 'silk_icons.css.scss'
+
+  desc 'Display available silk icon names'
+  task :names do
+    puts (SilkIcons::Engine.config.root + stylesheet).read.scan(/^\.silk_icon-(\S+)/)
+  end
 
   directory "#{docs_dir}"
   directory "#{images_dir}"
